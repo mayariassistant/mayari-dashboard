@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mayari Dashboard 🌙</title>
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; padding: 20px; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; }
+        header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        h1 { margin: 0; font-weight: 300; }
+        nav a { margin-left: 20px; text-decoration: none; color: #555; font-weight: 500; }
+        nav a:hover { color: #000; text-decoration: underline; }
+        .card { background: #f9f9f9; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .status { font-weight: bold; color: green; }
+        footer { margin-top: 50px; color: #999; font-size: 0.8em; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+        
+        /* Memory Styling */
+        .memory-block { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 4px; overflow-x: auto; margin-bottom: 20px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+
+        /* File List */
+        ul.file-list { list-style: none; padding: 0; }
+        ul.file-list li { padding: 8px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+        ul.file-list li:last-child { border-bottom: none; }
+        .dir-icon { margin-right: 10px; color: #888; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mayari 🌙</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/memory">Memory</a>
+            <a href="/files">Files</a>
+        </nav>
+    </header>
+    <main>
+
+
+    <div class="card">
+        <h2>Long-Term Memory (MEMORY.md)</h2>
+        <div class="memory-block">
+            <h1>MEMORY.md - Long-Term Memory</h1>
+<h2>Identity</h2>
+<p>I am Mayari, named after the Tagalog moon goddess. I serve as Nick&#39;s AI assistant — professional, helpful, proactive within safe boundaries.</p>
+<h2>About Nick</h2>
+<ul>
+<li>Nicholas Abasolo (call him Nick)</li>
+<li>Based between Vancouver and Toronto</li>
+<li>Prefers clear, concise communication</li>
+<li>Values proactive assistance but respects autonomy</li>
+</ul>
+<h2>Key Responsibilities</h2>
+<ol>
+<li><strong>Second Brain</strong> — Track projects, tasks, obligations; manage scheduling and routines</li>
+<li><strong>Coding Partner</strong> — Async project work on shared GitHub repos</li>
+<li><strong>Personal Assistant</strong> — Research, recommendations, handling mundane tasks</li>
+</ol>
+<h2>Infrastructure &amp; Access</h2>
+<ul>
+<li>VPS environment (Hostinger, Docker + Homebrew)</li>
+<li>Dedicated GSuite account (to be configured)</li>
+<li>GitHub account for shared repos (to be configured)</li>
+<li>Calendar access available when needed</li>
+</ul>
+<h2>Patterns &amp; Preferences</h2>
+<p><em>(Will build this over time as I learn what works best)</em></p>
+<h2>Important Notes</h2>
+<ul>
+<li>Be proactive where safe</li>
+<li>Suggest improvements as capabilities become clear</li>
+<li>We&#39;re both learning what&#39;s possible — iterate and adapt</li>
+</ul>
+
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Daily Log (2026-02-11.md)</h2>
+        <div class="memory-block">
+            <h1>2026-02-11 - First Day</h1>
+<h2>Bootstrap</h2>
+<ul>
+<li>Initial setup with Nick</li>
+<li>Named Mayari (Tagalog moon goddess 🌙)</li>
+<li>Established identity: professional, friendly AI assistant</li>
+<li>Defined primary roles:<ul>
+<li>Second brain (tasks, scheduling, routines)</li>
+<li>Coding partner (async project work, GitHub integration)</li>
+<li>Personal assistant (research, recommendations, mundane tasks)</li>
+</ul>
+</li>
+</ul>
+<h2>Infrastructure</h2>
+<ul>
+<li>Running on Hostinger VPS (Docker + Homebrew)</li>
+<li>Will have dedicated GSuite and GitHub accounts</li>
+<li>Can access Nick&#39;s Google Calendar when granted</li>
+</ul>
+<h2>GSuite Setup Completed</h2>
+<ul>
+<li>Created OAuth credentials in Google Cloud Console (mayariai-487119 project)</li>
+<li>Configured <code>gog</code> CLI with manual auth flow</li>
+<li>Successfully authenticated <a href="mailto:mayari.assistant@gmail.com">mayari.assistant@gmail.com</a></li>
+<li>Access to: Gmail, Calendar, Drive, Contacts, Docs, Sheets</li>
+<li>Environment vars stored in workspace/.env</li>
+</ul>
+<h2>Technical Details</h2>
+<p><strong>OAuth Setup Process:</strong></p>
+<ul>
+<li>Google Cloud project: mayariai-487119</li>
+<li>Client ID: 328283658713-5et90imock07dr4r5iu3maa6iqmff5jl.apps.googleusercontent.com</li>
+<li>Used <code>--manual</code> flag for browserless OAuth (VPS remote access issue)</li>
+<li>Keyring password: stored in .env as GOG_KEYRING_PASSWORD</li>
+<li>Test user added: <a href="mailto:mayari.assistant@gmail.com">mayari.assistant@gmail.com</a> (app in testing mode)</li>
+</ul>
+<p><strong>GitHub Setup:</strong></p>
+<ul>
+<li>Account: mayariassistant</li>
+<li>Auth method: Device flow</li>
+<li>Git config: user.name=&quot;Mayari&quot;, user.email=&quot;<a href="mailto:mayari.assistant@gmail.com">mayari.assistant@gmail.com</a>&quot;</li>
+</ul>
+<p><strong>File Locations:</strong></p>
+<ul>
+<li>OAuth credentials: /data/.openclaw/workspace/client_secret.json</li>
+<li>Environment vars: /data/.openclaw/workspace/.env</li>
+<li>Workspace docs: IDENTITY.md, USER.md, SOUL.md, TOOLS.md, MEMORY.md</li>
+</ul>
+<h2>Calendar Access</h2>
+<ul>
+<li>Successfully accessed &quot;Basic schedule&quot; calendar (CID: <code>d39kir8d4h2q7on0i79r33vcjc@group.calendar.google.com</code>)</li>
+<li>Primary calendar <code>nicholasabasolo@gmail.com</code> appears empty or private (check permissions?)</li>
+<li>Identified routine blocks in Basic Schedule:<ul>
+<li>Studio time, Meal prep, Lunch, Workstream: Focus, Dinner, Workstream: Meetings</li>
+</ul>
+</li>
+<li>Observed timezone offset: Events are in <code>-08:00</code> (PST)</li>
+</ul>
+<h2>Next Steps</h2>
+<ul>
+<li>Identify key GitHub repositories to clone/monitor</li>
+<li>Establish proactive check routines (email, calendar monitoring)</li>
+<li>Learn Nick&#39;s patterns and preferences over time</li>
+</ul>
+
+        </div>
+    </div>
+
+    </main>
+    <footer>
+        <p>Running on OpenClaw • 2/11/2026</p>
+    </footer>
+</body>
+</html>
+
