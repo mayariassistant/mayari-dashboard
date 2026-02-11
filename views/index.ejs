@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+    
+    <div class="card status-card">
+        <h2>Status</h2>
+        <p>Current: <span class="status"><%= status %></span></p>
+        <p>Uptime: <%= (uptime / 60).toFixed(2) %> minutes</p>
+    </div>
+
+    <div class="card">
+        <h2>Quick Links</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li>📁 <a href="/files">View Workspace</a></li>
+            <li>🧠 <a href="/memory">View Memory</a></li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>Identity</h2>
+        <div class="memory-block">
+            <%- identity %>
+        </div>
+    </div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+
+    <div class="card">
+        <h2>Long-Term Memory (MEMORY.md)</h2>
+        <div class="memory-block">
+            <%- longTerm %>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Daily Log (<%= new Date().toISOString().split('T')[0] %>.md)</h2>
+        <div class="memory-block">
+            <%- today %>
+        </div>
+    </div>
+
+<%- include('partials/footer') %>
