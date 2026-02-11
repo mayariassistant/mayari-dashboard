@@ -32,10 +32,22 @@ app.get('/', (req, res) => {
     const identityMatch = memory ? memory.match(/## Identity\n\n([\s\S]*?)\n##/) : null;
     const identity = identityMatch ? marked.parse(identityMatch[1]) : 'No identity found.';
 
+    // Read Token Usage
+    let tokens = null;
+    try {
+        const tokenPath = path.join(WORKSPACE_DIR, 'mayari-dashboard/status.json');
+        if (fs.existsSync(tokenPath)) {
+            tokens = JSON.parse(fs.readFileSync(tokenPath, 'utf8'));
+        }
+    } catch (e) {
+        console.error('Error reading status.json:', e);
+    }
+
     res.render('index', { 
         status: 'Online 🟢', 
         uptime: process.uptime(),
-        identity 
+        identity,
+        tokens
     });
 });
 

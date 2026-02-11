@@ -32,6 +32,9 @@ try {
 const memoryContent = safeRead('MEMORY.md');
 const todayLog = safeRead(`memory/${new Date().toISOString().split('T')[0]}.md`);
 
+const inboxContent = safeRead('second-brain/inbox.md');
+const healthContent = safeRead('second-brain/areas/health.md');
+
 // Simple parsing for identity
 const identityMatch = memoryContent ? memoryContent.match(/## Identity\n\n([\s\S]*?)\n##/) : null;
 const identity = identityMatch ? marked.parse(identityMatch[1]) : 'No identity found.';
@@ -76,6 +79,12 @@ renderPage('memory', {
     longTerm: memoryContent ? marked.parse(memoryContent) : 'No long-term memory found.',
     today: todayLog ? marked.parse(todayLog) : 'No daily log found for today.'
 }, 'memory.html');
+
+// 2b. Second Brain
+renderPage('brain/index', {
+    inboxContent: inboxContent ? marked.parse(inboxContent) : 'No inbox items.',
+    healthContent: healthContent ? marked.parse(healthContent) : 'No health logs.'
+}, 'brain.html');
 
 // 3. Files
 renderPage('files', { files }, 'files.html');
