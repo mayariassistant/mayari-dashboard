@@ -4,7 +4,7 @@ const path = require('path');
 const marked = require('marked');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3001; // Force port 3001 to avoid OpenClaw conflict
 const WORKSPACE_DIR = '/data/.openclaw/workspace';
 
 app.set('view engine', 'ejs');

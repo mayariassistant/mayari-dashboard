@@ -4,13 +4,20 @@
         <h2>Status</h2>
         <p>Current: <span class="status"><%= status %></span></p>
         <p>Uptime: <%= (uptime / 60).toFixed(2) %> minutes</p>
+        <% if (locals.tokens) { %>
+            <hr>
+            <h3>Token Usage 📊</h3>
+            <p><strong>Input:</strong> <%= tokens.in %></p>
+            <p><strong>Output:</strong> <%= tokens.out %></p>
+            <p><strong>Context:</strong> <%= tokens.context %></p>
+        <% } %>
     </div>
 
     <div class="card">
         <h2>Quick Links</h2>
         <ul style="list-style: none; padding: 0;">
-            <li>📁 <a href="/files">View Workspace</a></li>
-            <li>🧠 <a href="/memory">View Memory</a></li>
+            <li>📁 <a href="files.html">View Workspace</a></li>
+            <li>🧠 <a href="memory.html">View Memory</a></li>
         </ul>
     </div>
     
