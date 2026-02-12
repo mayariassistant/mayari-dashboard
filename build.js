@@ -56,8 +56,8 @@ const calendar = fetchCalendar();
 const memoryContent = safeRead('MEMORY.md');
 const todayLog = safeRead(`memory/${new Date().toISOString().split('T')[0]}.md`);
 
-const inboxContent = safeRead('second-brain/inbox.md');
-const healthContent = safeRead('second-brain/areas/health.md');
+const inboxContent = safeRead('inbox.md');
+const healthContent = safeRead('areas/health.md');
 
 // Simple parsing for identity
 const identityMatch = memoryContent ? memoryContent.match(/## Identity\n\n([\s\S]*?)\n##/) : null;
@@ -81,7 +81,13 @@ const renderPage = (viewName, data, outputPath) => {
     const templatePath = path.join(VIEWS_DIR, `${viewName}.ejs`);
     const layoutPath = path.join(VIEWS_DIR, 'layout.ejs');
     
-    ejs.renderFile(templatePath, data, { filename: templatePath }, (err, body) => {
+    // Ensure tokens data is safe for templates
+    const safeData = {
+        ...data,
+        tokens: data.tokens && data.tokens.total_tokens !== undefined ? data.tokens : { total_tokens: 0, prompt_tokens: 0, completion_tokens: 0 }
+    };
+
+    ejs.renderFile(templatePath, safeData, { filename: templatePath }, (err, body) => {
         if (err) {
             console.error(`Error rendering ${viewName}:`, err);
             return;
