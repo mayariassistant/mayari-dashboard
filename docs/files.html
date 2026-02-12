@@ -1,292 +1,166 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mayari Dashboard 🌙</title>
-    <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css">
-    <style>
-        :root {
-            --bg-color: #f4f7f6;
-            --card-bg: #ffffff;
-            --text-main: #333333;
-            --text-light: #888888;
-            --accent: #4a90e2;
-            --success: #2ecc71;
-            --warning: #f1c40f;
-            --danger: #e74c3c;
-        }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        
-        /* Header */
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e1e1; }
-        h1 { margin: 0; font-weight: 300; letter-spacing: -0.5px; font-size: 1.8rem; }
-        nav a { margin-left: 20px; text-decoration: none; color: var(--text-light); font-weight: 500; transition: color 0.2s; }
-        nav a:hover, nav a.active { color: var(--text-main); }
-
-        /* Grid Layout */
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .full-width { grid-column: 1 / -1; }
-        
-        /* Cards */
-        .card { background: var(--card-bg); border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; border: 1px solid rgba(0,0,0,0.03); }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
-        .card h2 { margin-top: 0; color: var(--text-light); text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.75rem; margin-bottom: 20px; font-weight: 600; }
-        .card h3 { margin: 0 0 10px 0; font-size: 1.1rem; font-weight: 500; }
-        
-        /* Widget Specifics */
-        .stat-big { font-size: 2.5rem; font-weight: 700; margin: 10px 0; line-height: 1; }
-        .stat-label { color: var(--text-light); font-size: 0.9rem; }
-        .indicator { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
-        .indicator.on { background: var(--success); box-shadow: 0 0 8px rgba(46, 204, 113, 0.4); }
-        .indicator.off { background: var(--text-light); }
-        .indicator.warn { background: var(--warning); box-shadow: 0 0 8px rgba(241, 196, 15, 0.4); }
-
-        /* Lists */
-        ul.simple-list { list-style: none; padding: 0; margin: 0; }
-        ul.simple-list li { padding: 12px 0; border-bottom: 1px solid #f6f6f6; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; }
-        ul.simple-list li:last-child { border-bottom: none; }
-        ul.simple-list li strong { font-weight: 500; }
-        ul.simple-list li span.meta { font-size: 0.8em; color: var(--text-light); }
-
-        /* Memory/Code Blocks */
-        .memory-block { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 0.9rem; line-height: 1.5; color: #444; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; font-size: 0.9em; }
-        
-        footer { margin-top: 50px; color: var(--text-light); font-size: 0.8em; text-align: center; padding-top: 20px; border-top: 1px solid #eee; }
-    </style>
-</head>
-<body>
-    <div class="container">
-    <header>
-        <h1>Mayari 🌙</h1>
-        <nav>
-            <a href="index.html">Dashboard</a>
-            <a href="brain.html">Brain</a>
-            <a href="memory.html">Memory</a>
-            <a href="files.html">Files</a>
-        </nav>
-    </header>
-    <main>
-
-
-    <h2>File Explorer (/data/.openclaw/workspace)</h2>
-    <div class="card">
-        <ul class="file-list">
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            .env
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        0.1 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            AGENTS.md
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        7.8 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            BOOT.md
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        0.3 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            HEARTBEAT.md
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        0.3 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            IDENTITY.md
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        0.6 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            MEMORY.md
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        1.1 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            SOUL.md
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        1.7 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            TOOLS.md
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        1.8 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            USER.md
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        1.5 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            client_secret.json
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        0.4 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📁</span>
-                            <strong>mayari-dashboard/</strong>
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        -
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📁</span>
-                            <strong>memory/</strong>
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        -
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📁</span>
-                            <strong>node_modules/</strong>
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        -
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            package-lock.json
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        31.5 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            package.json
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        0.1 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📄</span>
-                            scan_brain.js
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        2.8 KB
-                    </div>
-                </li>
-            
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        
-                            <span class="dir-icon">📁</span>
-                            <strong>second-brain/</strong>
-                        
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        -
-                    </div>
-                </li>
-            
-        </ul>
+<div class="card">
+    <div class="card-header">
+        <i data-lucide="files"></i>
+        <h2>Workspace Explorer</h2>
     </div>
+    <ul class="file-list">
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>.env</span>
+                </div>
+                <div class="subtext">97</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>AGENTS.md</span>
+                </div>
+                <div class="subtext">7971</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>BOOT.md</span>
+                </div>
+                <div class="subtext">291</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>HEARTBEAT.md</span>
+                </div>
+                <div class="subtext">273</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>IDENTITY.md</span>
+                </div>
+                <div class="subtext">650</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>MEMORY.md</span>
+                </div>
+                <div class="subtext">1094</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>SOUL.md</span>
+                </div>
+                <div class="subtext">1773</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>TOOLS.md</span>
+                </div>
+                <div class="subtext">1869</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>USER.md</span>
+                </div>
+                <div class="subtext">1496</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>client_secret.json</span>
+                </div>
+                <div class="subtext">404</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="folder" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>mayari-dashboard</span>
+                </div>
+                <div class="subtext">-</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="folder" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>memory</span>
+                </div>
+                <div class="subtext">-</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="folder" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>node_modules</span>
+                </div>
+                <div class="subtext">-</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>package-lock.json</span>
+                </div>
+                <div class="subtext">32215</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>package.json</span>
+                </div>
+                <div class="subtext">98</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="folder" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>research</span>
+                </div>
+                <div class="subtext">-</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="file-text" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>scan_brain.js</span>
+                </div>
+                <div class="subtext">2820</div>
+            </li>
+        
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="folder" style="width:18px; color: var(--text-secondary);"></i>
+                    <span>second-brain</span>
+                </div>
+                <div class="subtext">-</div>
+            </li>
+        
+    </ul>
+</div>
 
-    </main>
-    <footer>
-        <p>Running on OpenClaw • 2/11/2026</p>
-    </footer>
-    </div>
-</body>
-</html>
-
+<style>
+    .file-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 8px;
+    }
+    .file-list li:hover {
+        background: rgba(255,255,255,0.03);
+        border-radius: 8px;
+    }
+</style>
