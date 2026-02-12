@@ -10,14 +10,21 @@ function updateStatus() {
     console.log('Gathering status data...');
     
     // Get session status using openclaw CLI for accurate token counts
-    let statusData = { in: "0", out: "0", context: "0/0", model: "unknown" };
+    let statusData = { 
+        total_tokens: 0, 
+        prompt_tokens: 0, 
+        completion_tokens: 0, 
+        context: "0/0", 
+        model: "unknown" 
+    };
     try {
         const statusOutput = execSync('openclaw status --json').toString();
         const fullStatus = JSON.parse(statusOutput);
         const mainSession = fullStatus.sessions.find(s => s.key === 'agent:main:main');
         if (mainSession) {
-            statusData.in = mainSession.tokensIn || "0";
-            statusData.out = mainSession.tokensOut || "0";
+            statusData.total_tokens = mainSession.tokens || 0;
+            statusData.prompt_tokens = mainSession.tokensIn || 0;
+            statusData.completion_tokens = mainSession.tokensOut || 0;
             statusData.context = mainSession.contextUsage || "0/0";
             statusData.model = mainSession.model || "unknown";
         }

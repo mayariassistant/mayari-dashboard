@@ -1,6 +1,7 @@
 {
-  "in": "0",
-  "out": "0",
+  "total_tokens": 0,
+  "prompt_tokens": 0,
+  "completion_tokens": 0,
   "context": "0/0",
   "model": "unknown"
 }
