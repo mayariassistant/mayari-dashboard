@@ -79,13 +79,22 @@ try {
 // Rendering Function
 const renderPage = (viewName, data, outputPath) => {
     const templatePath = path.join(VIEWS_DIR, `${viewName}.ejs`);
-    ejs.renderFile(templatePath, data, { filename: templatePath }, (err, str) => {
+    const layoutPath = path.join(VIEWS_DIR, 'layout.ejs');
+    
+    ejs.renderFile(templatePath, data, { filename: templatePath }, (err, body) => {
         if (err) {
             console.error(`Error rendering ${viewName}:`, err);
             return;
         }
-        fs.writeFileSync(path.join(BUILD_DIR, outputPath), str);
-        console.log(`Generated ${outputPath}`);
+        
+        ejs.renderFile(layoutPath, { ...data, body }, { filename: layoutPath }, (err, fullHtml) => {
+            if (err) {
+                console.error(`Error rendering layout for ${viewName}:`, err);
+                return;
+            }
+            fs.writeFileSync(path.join(BUILD_DIR, outputPath), fullHtml);
+            console.log(`Generated ${outputPath}`);
+        });
     });
 };
 
