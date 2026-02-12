@@ -75,12 +75,35 @@
         </div>
         <% if (tokens) { %>
             <div class="subtext">
-                <p><strong>Total Tokens:</strong> <%= tokens.total_tokens.toLocaleString() %></p>
-                <p><strong>Input:</strong> <%= tokens.prompt_tokens.toLocaleString() %></p>
-                <p><strong>Output:</strong> <%= tokens.completion_tokens.toLocaleString() %></p>
+                <p><strong>Total Tokens:</strong> <%= (tokens.total_tokens || 0).toLocaleString() %></p>
+                <p><strong>Input:</strong> <%= (tokens.prompt_tokens || 0).toLocaleString() %></p>
+                <p><strong>Output:</strong> <%= (tokens.completion_tokens || 0).toLocaleString() %></p>
+                <p><strong>Model:</strong> <%= tokens.model %></p>
             </div>
         <% } else { %>
             <p class="subtext">No token data available.</p>
         <% } %>
+    </div>
+</div>
+
+<!-- Inbox & Health -->
+<div class="grid" style="margin-top: 24px;">
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="inbox"></i>
+            <h2>Inbox</h2>
+        </div>
+        <div class="subtext">
+            <%- inbox %>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="heart"></i>
+            <h2>Health</h2>
+        </div>
+        <div class="subtext">
+            <%- health %>
+        </div>
     </div>
 </div>

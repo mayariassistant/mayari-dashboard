@@ -59,9 +59,15 @@ const todayLog = safeRead(`memory/${new Date().toISOString().split('T')[0]}.md`)
 const inboxContent = safeRead('inbox.md');
 const healthContent = safeRead('areas/health.md');
 
+const inbox = inboxContent ? marked.parse(inboxContent) : 'No inbox tasks.';
+const health = healthContent ? marked.parse(healthContent) : 'No health data.';
+
 // Simple parsing for identity
 const identityMatch = memoryContent ? memoryContent.match(/## Identity\n\n([\s\S]*?)\n##/) : null;
-const identity = identityMatch ? marked.parse(identityMatch[1]) : 'No identity found.';
+const identity = identityMatch ? marked.parse(identityMatch[1]) : (memoryContent ? marked.parse(memoryContent.substring(0, 500) + '...') : 'No identity found.');
+
+// Full Memory Content for memory page
+const fullMemory = memoryContent ? marked.parse(memoryContent) : 'Memory is currently blank.';
 
 // File list
 let files = [];
@@ -81,10 +87,16 @@ const renderPage = (viewName, data, outputPath) => {
     const templatePath = path.join(VIEWS_DIR, `${viewName}.ejs`);
     const layoutPath = path.join(VIEWS_DIR, 'layout.ejs');
     
-    // Ensure tokens data is safe for templates
+    // Ensure data is safe for templates
     const safeData = {
         ...data,
-        tokens: data.tokens && data.tokens.total_tokens !== undefined ? data.tokens : { total_tokens: 0, prompt_tokens: 0, completion_tokens: 0 }
+        status: 'Online',
+        uptime: process.uptime(),
+        inbox: data.inbox || inbox,
+        health: data.health || health,
+        identity: data.identity || identity,
+        memory: data.memory || fullMemory,
+        tokens: data.tokens && data.tokens.total_tokens !== undefined ? data.tokens : { total_tokens: 0, prompt_tokens: 0, completion_tokens: 0, model: 'Unknown' }
     };
 
     ejs.renderFile(templatePath, safeData, { filename: templatePath }, (err, body) => {
