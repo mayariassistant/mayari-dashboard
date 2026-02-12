@@ -1,30 +1,59 @@
 <%- include('partials/header') %>
-    
-    <div class="card status-card">
-        <h2>Status</h2>
-        <p>Current: <span class="status"><%= status %></span></p>
-        <p>Uptime: <%= (uptime / 60).toFixed(2) %> minutes</p>
-        <% if (locals.tokens) { %>
-            <hr>
-            <h3>Token Usage 📊</h3>
-            <p><strong>Input:</strong> <%= tokens.in %></p>
-            <p><strong>Output:</strong> <%= tokens.out %></p>
-            <p><strong>Context:</strong> <%= tokens.context %></p>
-        <% } %>
+
+    <!-- Hero / Status -->
+    <div class="dashboard-grid">
+        <div class="card">
+            <h2>System Status</h2>
+            <div class="stat-big"><span class="indicator on"></span>Online</div>
+            <div class="stat-label">Uptime: <%= (uptime / 60).toFixed(0) %>m</div>
+            <div class="stat-label">Last Update: <%= new Date().toLocaleTimeString() %></div>
+        </div>
+
+        <div class="card">
+            <h2>Second Brain</h2>
+            <% if (brain.inboxCount > 0) { %>
+                <div class="stat-big" style="color: var(--warning);"><%= brain.inboxCount %> Items</div>
+                <div class="stat-label">Action Required in Inbox</div>
+            <% } else { %>
+                <div class="stat-big" style="color: var(--success);">Zero</div>
+                <div class="stat-label">Inbox Clear ✨</div>
+            <% } %>
+        </div>
+
+        <div class="card">
+            <h2>Routine Check</h2>
+            <% if (brain.mealPrep) { %>
+                <div class="stat-big" style="color: var(--success);">On Track</div>
+                <div class="stat-label">Meal Prep Scheduled ✅</div>
+            <% } else { %>
+                <div class="stat-big" style="color: var(--danger);">Missing</div>
+                <div class="stat-label">No Meal Prep Found ⚠️</div>
+            <% } %>
+        </div>
+        
+        <div class="card">
+            <h2>Token Usage</h2>
+            <% if (locals.tokens) { %>
+                <ul class="simple-list">
+                    <li><strong>Input</strong> <span><%= tokens.in %></span></li>
+                    <li><strong>Output</strong> <span><%= tokens.out %></span></li>
+                    <li><strong>Context</strong> <span><%= tokens.context.split('/')[0] %></span></li>
+                </ul>
+            <% } else { %>
+                <div class="stat-label">No data available</div>
+            <% } %>
+        </div>
     </div>
 
-    <div class="card">
-        <h2>Quick Links</h2>
-        <ul style="list-style: none; padding: 0;">
-            <li>📁 <a href="files.html">View Workspace</a></li>
-            <li>🧠 <a href="memory.html">View Memory</a></li>
-        </ul>
-    </div>
-    
-    <div class="card">
-        <h2>Identity</h2>
-        <div class="memory-block">
-            <%- identity %>
+    <!-- Quick Links & Projects -->
+    <div class="dashboard-grid">
+        <div class="card full-width">
+            <h2>Quick Actions</h2>
+            <div style="display: flex; gap: 15px;">
+                <a href="brain.html" style="background: var(--accent); color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">Go to Second Brain 🧠</a>
+                <a href="memory.html" style="background: #eee; color: #333; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">Review Memory 📝</a>
+                <a href="files.html" style="background: #eee; color: #333; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">Browse Files 📁</a>
+            </div>
         </div>
     </div>
 
