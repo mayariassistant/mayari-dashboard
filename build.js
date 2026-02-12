@@ -77,7 +77,7 @@ renderPage('index', {
     uptime: process.uptime(),
     identity,
     tokens,
-    events: upcomingEvents,
+    calendar: upcomingEvents,
     brain: {
         inboxCount: (inboxContent ? (inboxContent.match(/^- \[ \]/gm) || []).length : 0)
     }
