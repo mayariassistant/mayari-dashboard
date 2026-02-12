@@ -29,6 +29,11 @@ try {
     console.log('No status.json found');
 }
 
+// Calendar Sync (Mock for now, would ideally fetch via gog in build)
+const upcomingEvents = [
+    { summary: "sync with mayari!", start: "2026-02-12T09:00:00-05:00" }
+];
+
 const memoryContent = safeRead('MEMORY.md');
 const todayLog = safeRead(`memory/${new Date().toISOString().split('T')[0]}.md`);
 
@@ -72,6 +77,7 @@ renderPage('index', {
     uptime: process.uptime(),
     identity,
     tokens,
+    events: upcomingEvents,
     brain: {
         inboxCount: (inboxContent ? (inboxContent.match(/^- \[ \]/gm) || []).length : 0)
     }
