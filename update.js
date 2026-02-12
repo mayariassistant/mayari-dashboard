@@ -20,16 +20,19 @@ function updateStatus() {
     try {
         const statusOutput = execSync('openclaw status --json').toString();
         const fullStatus = JSON.parse(statusOutput);
-        const mainSession = fullStatus.sessions.find(s => s.key === 'agent:main:main');
+        
+        // Find the main session in the new array structure
+        const mainSession = fullStatus.sessions.recent.find(s => s.key === 'agent:main:main');
+        
         if (mainSession) {
-            statusData.total_tokens = mainSession.tokens || 0;
-            statusData.prompt_tokens = mainSession.tokensIn || 0;
-            statusData.completion_tokens = mainSession.tokensOut || 0;
-            statusData.context = mainSession.contextUsage || "0/0";
+            statusData.total_tokens = mainSession.inputTokens + mainSession.outputTokens || 0;
+            statusData.prompt_tokens = mainSession.inputTokens || 0;
+            statusData.completion_tokens = mainSession.outputTokens || 0;
+            statusData.context = `${mainSession.inputTokens + mainSession.outputTokens}/${mainSession.contextTokens}` || "0/0";
             statusData.model = mainSession.model || "unknown";
         }
     } catch (e) {
-        console.error('Failed to get session status via CLI, falling back to basic info.');
+        console.error('Failed to get session status via CLI:', e.message);
     }
 
     // Write to status.json
