@@ -1,25 +1,30 @@
-<%- include('partials/header') %>
-
-    <h2>File Explorer (/data/.openclaw/workspace)</h2>
-    <div class="card">
-        <ul class="file-list">
-            <% files.forEach(function(file) { %>
-                <li style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        <% if (file.isDirectory) { %>
-                            <span class="dir-icon">📁</span>
-                            <strong><%= file.name %>/</strong>
-                        <% } else { %>
-                            <span class="dir-icon">📄</span>
-                            <%= file.name %>
-                        <% } %>
-                    </div>
-                    <div style="color: #999; font-size: 0.8em;">
-                        <%= file.isDirectory ? '-' : (file.size / 1024).toFixed(1) + ' KB' %>
-                    </div>
-                </li>
-            <% }); %>
-        </ul>
+<div class="card">
+    <div class="card-header">
+        <i data-lucide="files"></i>
+        <h2>Workspace Explorer</h2>
     </div>
+    <ul class="file-list">
+        <% files.forEach(file => { %>
+            <li>
+                <div style="display:flex; align-items: center; gap: 12px;">
+                    <i data-lucide="<%= file.isDirectory ? 'folder' : 'file-text' %>" style="width:18px; color: var(--text-secondary);"></i>
+                    <span><%= file.name %></span>
+                </div>
+                <div class="subtext"><%= file.size %></div>
+            </li>
+        <% }); %>
+    </ul>
+</div>
 
-<%- include('partials/footer') %>
+<style>
+    .file-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 8px;
+    }
+    .file-list li:hover {
+        background: rgba(255,255,255,0.03);
+        border-radius: 8px;
+    }
+</style>

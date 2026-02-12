@@ -1,17 +1,28 @@
-<%- include('partials/header') %>
-
+<div class="grid" style="grid-template-columns: 1fr;">
     <div class="card">
-        <h2>Long-Term Memory (MEMORY.md)</h2>
-        <div class="memory-block">
+        <div class="card-header">
+            <i data-lucide="brain"></i>
+            <h2>Long-Term Memory</h2>
+        </div>
+        <div class="memory-content">
             <%- longTerm %>
         </div>
     </div>
-    
+
     <div class="card">
-        <h2>Daily Log (<%= new Date().toISOString().split('T')[0] %>.md)</h2>
-        <div class="memory-block">
+        <div class="card-header">
+            <i data-lucide="scroll"></i>
+            <h2>Today's Activity Log</h2>
+        </div>
+        <div class="memory-content">
             <%- today %>
         </div>
     </div>
+</div>
 
-<%- include('partials/footer') %>
+<style>
+    .memory-content h1, .memory-content h2 { color: var(--accent-color); font-size: 1.2rem; margin-top: 24px; }
+    .memory-content p { color: var(--text-primary); }
+    .memory-content ul { list-style: disc; padding-left: 20px; margin-bottom: 16px; }
+    .memory-content li { border: none; padding: 4px 0; }
+</style>

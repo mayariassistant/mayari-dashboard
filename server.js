@@ -2,10 +2,18 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
+const { execSync } = require('child_process');
 
 const app = express();
-const PORT = 3001; // Force port 3001 to avoid OpenClaw conflict
+const PORT = 3001; 
 const WORKSPACE_DIR = '/data/.openclaw/workspace';
+
+// Environment for GSuite tools
+const GOG_ENV = {
+    GOG_KEYRING_PASSWORD: "mayari-secure-2024",
+    GOG_ACCOUNT: "mayari.assistant@gmail.com",
+    PATH: process.env.PATH // Ensure gog is in path
+};
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -14,7 +22,6 @@ app.use(express.static('public'));
 const safeRead = (filePath) => {
     try {
         const fullPath = path.join(WORKSPACE_DIR, filePath);
-        // Basic jail to ensure we don't leave workspace
         if (!fullPath.startsWith(WORKSPACE_DIR)) return null;
         if (!fs.existsSync(fullPath)) return null;
         return fs.readFileSync(fullPath, 'utf8');
@@ -23,35 +30,53 @@ const safeRead = (filePath) => {
     }
 };
 
-// Routes
+// GSuite Helpers
+const getCalendar = () => {
+    try {
+        const start = new Date().toISOString().split('T')[0];
+        const end = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+        const output = execSync(`gog calendar events "d39kir8d4h2q7on0i79r33vcjc@group.calendar.google.com" --from ${start} --to ${end} --json`, { env: { ...process.env, ...GOG_ENV } });
+        return JSON.parse(output);
+    } catch (e) {
+        console.error('Calendar error:', e.message);
+        return [];
+    }
+};
 
-// Home: Status + Links
+const getEmails = () => {
+    try {
+        const output = execSync(`gog gmail search 'in:inbox' --max 5 --json`, { env: { ...process.env, ...GOG_ENV } });
+        return JSON.parse(output);
+    } catch (e) {
+        console.error('Gmail error:', e.message);
+        return [];
+    }
+};
+
+// Routes
 app.get('/', (req, res) => {
     const memory = safeRead('MEMORY.md');
-    // Simple parsing to extract "Identity" section
     const identityMatch = memory ? memory.match(/## Identity\n\n([\s\S]*?)\n##/) : null;
     const identity = identityMatch ? marked.parse(identityMatch[1]) : 'No identity found.';
 
-    // Read Token Usage
     let tokens = null;
     try {
         const tokenPath = path.join(WORKSPACE_DIR, 'mayari-dashboard/status.json');
         if (fs.existsSync(tokenPath)) {
             tokens = JSON.parse(fs.readFileSync(tokenPath, 'utf8'));
         }
-    } catch (e) {
-        console.error('Error reading status.json:', e);
-    }
+    } catch (e) {}
 
     res.render('index', { 
-        status: 'Online 🟢', 
+        status: 'Online', 
         uptime: process.uptime(),
         identity,
-        tokens
+        tokens,
+        calendar: getCalendar(),
+        emails: getEmails()
     });
 });
 
-// Memory Browser
 app.get('/memory', (req, res) => {
     const memoryContent = safeRead('MEMORY.md');
     const todayLog = safeRead(`memory/${new Date().toISOString().split('T')[0]}.md`);
@@ -62,15 +87,17 @@ app.get('/memory', (req, res) => {
     });
 });
 
-// File Explorer (Simple list)
 app.get('/files', (req, res) => {
     try {
         const files = fs.readdirSync(WORKSPACE_DIR, { withFileTypes: true })
-            .map(dirent => ({
-                name: dirent.name,
-                isDirectory: dirent.isDirectory(),
-                size: dirent.isDirectory() ? '-' : fs.statSync(path.join(WORKSPACE_DIR, dirent.name)).size
-            }));
+            .map(dirent => {
+                const stat = fs.statSync(path.join(WORKSPACE_DIR, dirent.name));
+                return {
+                    name: dirent.name,
+                    isDirectory: dirent.isDirectory(),
+                    size: dirent.isDirectory() ? '-' : (stat.size / 1024).toFixed(1) + ' KB'
+                };
+            });
         
         res.render('files', { files });
     } catch (err) {
@@ -78,7 +105,6 @@ app.get('/files', (req, res) => {
     }
 });
 
-// Start Server
 app.listen(PORT, () => {
     console.log(`Mayari Dashboard running on port ${PORT}`);
 });
