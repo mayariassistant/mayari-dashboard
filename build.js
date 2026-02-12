@@ -29,10 +29,29 @@ try {
     console.log('No status.json found');
 }
 
-// Calendar Sync (Mock for now, would ideally fetch via gog in build)
-const upcomingEvents = [
-    { summary: "sync with mayari!", start: "2026-02-12T09:00:00-05:00" }
-];
+// GSuite Fetching
+const fetchEmails = () => {
+    try {
+        const cmd = 'export GOG_ACCOUNT="mayari.assistant@gmail.com"; export GOG_KEYRING_PASSWORD="mayari-secure-2024"; gog gmail search "in:inbox" --max 5 --json';
+        const output = require('child_process').execSync(cmd).toString();
+        return JSON.parse(output);
+    } catch (e) {
+        return [];
+    }
+};
+
+const fetchCalendar = () => {
+    try {
+        const cmd = 'export GOG_ACCOUNT="mayari.assistant@gmail.com"; export GOG_KEYRING_PASSWORD="mayari-secure-2024"; gog calendar events "d39kir8d4h2q7on0i79r33vcjc@group.calendar.google.com" --from $(date -I) --to $(date -I -d "+1 day") --json';
+        const output = require('child_process').execSync(cmd).toString();
+        return JSON.parse(output);
+    } catch (e) {
+        return [{ summary: "sync with mayari!", start: "2026-02-12T09:00:00-05:00" }];
+    }
+};
+
+const emails = fetchEmails();
+const calendar = fetchCalendar();
 
 const memoryContent = safeRead('MEMORY.md');
 const todayLog = safeRead(`memory/${new Date().toISOString().split('T')[0]}.md`);
@@ -77,7 +96,8 @@ renderPage('index', {
     uptime: process.uptime(),
     identity,
     tokens,
-    calendar: upcomingEvents,
+    calendar,
+    emails,
     brain: {
         inboxCount: (inboxContent ? (inboxContent.match(/^- \[ \]/gm) || []).length : 0)
     }
