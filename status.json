@@ -1,7 +1,14 @@
 {
-  "total_tokens": 840055,
-  "prompt_tokens": 839206,
-  "completion_tokens": 849,
-  "context": "840055/200000",
-  "model": "gemini-3-flash-preview"
+  "total_tokens": 336448,
+  "prompt_tokens": 336385,
+  "completion_tokens": 63,
+  "context": "336448/200000",
+  "model": "gemini-3-flash-preview",
+  "last_sync": "2026-02-12T15:53:36.775Z",
+  "contextUsed": 137000,
+  "contextMax": 200000,
+  "lastHeartbeat": "2026-02-12T08:30:00-05:00",
+  "lastGitSync": "2026-02-12T08:28:00-05:00",
+  "errors": 0,
+  "updatedAt": "2026-02-12T08:30:00-05:00"
 }

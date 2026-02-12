@@ -3,7 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const WORKSPACE_DIR = '/data/.openclaw/workspace';
+// Path resolution (handles local vs global workspace)
+const WORKSPACE_DIR = process.env.WORKSPACE_DIR || '/data/.openclaw/workspace';
 const DASHBOARD_DIR = path.join(WORKSPACE_DIR, 'mayari-dashboard');
 
 function updateStatus() {
@@ -15,14 +16,23 @@ function updateStatus() {
         prompt_tokens: 0, 
         completion_tokens: 0, 
         context: "0/0", 
-        model: "unknown" 
+        model: "unknown",
+        last_sync: new Date().toISOString()
     };
     try {
         const statusOutput = execSync('openclaw status --json').toString();
         const fullStatus = JSON.parse(statusOutput);
         
+        // Use agent-status.json if it exists at root
+        const agentStatusPath = path.join(WORKSPACE_DIR, 'agent-status.json');
+        if (fs.existsSync(agentStatusPath)) {
+            const agentStatus = JSON.parse(fs.readFileSync(agentStatusPath, 'utf8'));
+            statusData = { ...statusData, ...agentStatus };
+        }
+
         // Find the main session in the new array structure
-        const mainSession = fullStatus.sessions.recent.find(s => s.key === 'agent:main:main');
+        const recentSessions = fullStatus?.sessions?.recent || [];
+        const mainSession = recentSessions.find(s => s.key === 'agent:main:main');
         
         if (mainSession) {
             statusData.total_tokens = mainSession.inputTokens + mainSession.outputTokens || 0;
