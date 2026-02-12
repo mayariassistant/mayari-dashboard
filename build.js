@@ -71,7 +71,10 @@ renderPage('index', {
     status: 'Online 🟢 (Static Build)', 
     uptime: process.uptime(),
     identity,
-    tokens 
+    tokens,
+    brain: {
+        inboxCount: (inboxContent ? (inboxContent.match(/^- \[ \]/gm) || []).length : 0)
+    }
 }, 'index.html');
 
 // 2. Memory
